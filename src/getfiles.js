@@ -8,4 +8,4 @@ function getFiles(dir){
     });
 }
 
-//console.log(getFiles("./Data/"));
+console.log(getFiles("./Data/"));
