@@ -3,12 +3,24 @@
 var noble = require('noble');
 var async = require('async');
 
+//http://stackoverflow.com/questions/2686855/is-there-a-javascript-function-that-can-pad-a-string-to-get-to-a-determined-leng
+function pad(pad, str, padLeft) {
+	if (typeof str === 'undefined') 
+		return pad;
+	if (padLeft) {
+		return (pad + str).slice(-pad.length);
+	} else {
+		return (str + pad).substring(0, pad.length);
+	}
+}
+
 function periDisc(peri){//Peripherial Discovered
 	//console.log("ID:"+peri.id);
 	var advert = peri.advertisement;
 	var name = advert.localName;
-	peri.on('disconnect', function(){console.log(peri.id+"\t"+name+"\tExited");});
-	peri.once('connect', function(){console.log(peri.id+"\t"+name+"\tConnected");});
+	pad_str = Array(30).join(' ');
+	peri.on('disconnect', function(){console.log(peri.address+"\t"+pad(pad_str,name,false)+"\tExited");});
+	peri.once('connect', function(){console.log(peri.address+"\t"+pad(pad_str,name,false)+"\tConnected");});
 	peri.connect();
 	peri.discoverServices();
 }
