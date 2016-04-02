@@ -1,0 +1,9 @@
+#ignore the whole of node_modules
+node_modules/*
+
+#Good general things
+*.swp
+*.lock
+
+#Personal ones
+nodeTutorial.js
