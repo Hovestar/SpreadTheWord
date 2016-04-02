@@ -8,7 +8,7 @@ var EchoCharacteristic = function() {
   EchoCharacteristic.super_.call(this, {
     uuid: 'ec0e',
     properties: ['read', 'write', 'notify'],
-    value: null
+    value: "TESTING"
   });
 
   this._value = new Buffer(0);
