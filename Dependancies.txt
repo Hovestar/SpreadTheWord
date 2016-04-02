@@ -1,0 +1,9 @@
+This is an informal list of dependancies:
+
+Node.js: nodejs.org
+
+Noble: https://github.com/sandeepmistry/noble
+- Ubuntu: sudo apt-get install bluetooth bluez libbluetooth-dev libudev-dev;npm install noble
+
+Change Bluetooth permissions:
+- Ubuntu:sudo setcap cap_net_raw+eip $(eval readlink -f `which node`)
