@@ -1,10 +1,31 @@
 var http = require("http"),
     url = require("url"),
     path = require("path"),
-    fs = require("fs")
+    fs = require("fs"),
+    formidable = require("formidable"),
     port = process.argv[2] || 8888;
 
+function output(hash,message) {
+
+	fs.writeFile("./output/"+hash+".txt", message, function(err) {
+	    if(err) {
+	        return console.log(err);
+	    }
+	    console.log(message);
+	}); 
+}
+
+
 http.createServer(function(request, response) {
+
+  if(request.method.toLowerCase() == 'get'){
+  	if(request.url[1] == "?"){
+  		var ind = request.url.search("=");
+  		var message = request.url.substr(ind+1)
+  		console.log(message);
+  		response.writeHead(301, {Location: "http://localhost:" + port});
+  	}
+  }
 
   var uri = url.parse(request.url).pathname
     , filename = path.join(process.cwd(), uri);
