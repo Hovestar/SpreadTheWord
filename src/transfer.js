@@ -19,8 +19,8 @@ function periDisc(peri){//Peripherial Discovered
 	var advert = peri.advertisement;
 	var name = advert.localName;
 	pad_str = Array(30).join(' ');
-	peri.on('disconnect', function(){console.log(peri.address+"\t"+pad(pad_str,name,false)+"\tExited");});
-	peri.once('connect', function(){console.log(peri.address+"\t"+pad(pad_str,name,false)+"\tConnected");});
+	peri.on('disconnect', function(){console.log(pad(pad_str,peri.address,false)+" "+pad(pad_str,name,false)+" Exited");});
+	peri.once('connect', function(){console.log(pad(pad_str,peri.address,false)+"\t"+pad(pad_str,name,false)+"\tConnected");});
 	peri.connect();
 	peri.discoverServices();
 }
