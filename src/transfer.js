@@ -6,7 +6,7 @@ var async = require('async');
 function periDisc(peri){//Peripherial Discovered
 	console.log("ID:"+peri.id);
 	peri.once('servicesDiscover',servDisc);
-	peri.on('disconnect', function(){console.log("EXITING!");process.exit(0);});
+	peri.on('disconnect', function(){console.log("EXITING!");});
 	peri.once('connect', function(){console.log("Connected!")});
 	peri.connect();
 	peri.discoverServices();
@@ -14,10 +14,15 @@ function periDisc(peri){//Peripherial Discovered
 
 function servDisc(serv){ //Service Discovered
 	console.log("Found One!");
-	serv.discoverIncludedServices();
-	serv.discoverCharacteristics();
-	serv.once('characteristicsDiscover',charDisc);
+	console.log(serv);
+	if(serv.length != 0)
+	{
+		serv.discoverIncludedServices();
+		serv.discoverCharacteristics();
+		serv.once('characteristicsDiscover',charDisc);
+	}
 }
+
 function charDisc(char){ //Characteristic discovered
 	console.log(char.uuid);
 }
