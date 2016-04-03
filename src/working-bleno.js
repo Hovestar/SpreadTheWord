@@ -11,12 +11,17 @@ bleno.on('stateChange', function(state) {
     var C = new bleno.Characteristic({
       uuid: 'ca00',
       properties: ['read'],
-      value: 'Characteristic',
+      value: 'TestString1',
+    });
+    var C2 = new bleno.Characteristic({
+      uuid: 'ca01',
+      properties: ['read'],
+      value: 'TestString2 - by the way, these strings can be pretty long. Like, pretty damn long. This one is over 100 characters.',
     });
     var service1 = new bleno.PrimaryService({
-      uuid:'13333333333333333333333333330003',
+      uuid:'13333333333333333333333333330004',
       properties: ['notify','read'],
-      characteristics: [C]
+      characteristics: [C,C2]
     });
       
     
