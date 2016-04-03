@@ -14,7 +14,7 @@ bleno.on('stateChange', function(state) {
       value: 'Characteristic',
     });
     var service1 = new bleno.PrimaryService({
-      uuid:'13333333333333333333333333330003',
+      uuid:'beef',
       properties: ['notify','read'],
       characteristics: [C]
     });
@@ -24,7 +24,7 @@ bleno.on('stateChange', function(state) {
 
     bleno.setServices(services);
 
-    bleno.startAdvertising('spartacus', ['13333333333333333333333333330003']);
+    bleno.startAdvertising('spartacus', ['beef']);
   } else {
     bleno.stopAdvertising();
   }

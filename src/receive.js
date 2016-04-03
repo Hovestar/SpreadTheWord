@@ -89,9 +89,12 @@ function explore(peripheral) {
           });
         },
         function (err) {
+          console.log("error");
           peripheral.disconnect();
         }
       );
     });
   });
 }
+
+
