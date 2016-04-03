@@ -1,7 +1,13 @@
+var messages = ["This is a test!"];
 var bleno = require('bleno');
-var messages = ["This", "Is", "A", "Test of something really cool!"];
-var EchoCharacteristic = require('./characteristic');
-
+/*fs = require('fs')
+fs.readFile('./datastore', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  messages = [data];
+});
+*/
 console.log('bleno - echo');
 
 bleno.on('stateChange', function(state) {
@@ -10,7 +16,9 @@ bleno.on('stateChange', function(state) {
   if (state === 'poweredOn') {
     numMessages = 0;
     charList = [];
+    console.log("AAA");
     while (numMessages < messages.length) {
+      console.log("Sending " + messages[numMessages]);
       charList.push(
         new bleno.Characteristic({
           uuid: '000' + numMessages,
