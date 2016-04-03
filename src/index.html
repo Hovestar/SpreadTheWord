@@ -1,22 +1,43 @@
 <head>
 	<title>Spread The Word</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="message.css">
 	<script>
-		function message(id) {
-			var text = $.get( "data/1" );
-			return text;
+		function getHTML(id){
+			$.get("data/"+id).done(function(data) {
+				message(data,id);
+			});
+		}
+		function share(id) {
+			console.log(id)
+			window.location.replace("/share/"+id);
+		}
+		function hide(id) {
+			console.log(id)
+			window.location.replace("/hide/"+id);
+		}
+		function message(data,id) {
+			var div = document.createElement('div');
+			div.setAttribute("id", id);
+			var sharebut = "<form method='get', onclick='share("+id+")' > <input type='button' value='share'> </form>"
+			var hidebut = "<form method='get', onclick='hide("+id+")' > <input type='button' value='hide'> </form>"
+			div.innerHTML = data + sharebut + hidebut;
+			document.body.appendChild(div);
 		}
 	</script>
 </head>
 
 <body>
+	<div>
+		<form method = "get" action="/">
+			Spread the word: 
+			<input type="text" name="submit"> 
+			<input type="submit" value="Submit">
+		</form>
+	<div>
 	<script>
-		for(var num = 1; num < 6; num++) {
-			var div = document.createElement('div');
-			div.innerHTML = message(num) ;
-			div.width = '100%';
-			div.height = 50;
-			document.body.appendChild(div);
+		for(var num = 5; num >= 1; num--) {
+			getHTML(num);
 		}
 	</script>
 </body>
