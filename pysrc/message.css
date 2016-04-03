@@ -1,0 +1,28 @@
+body {
+  background-color: #d3ffff;
+  font-family: sans-serif;
+}
+
+div {
+  color: #063e3e;
+	position: relative;
+	width: 20em;
+	height: 5em;
+	font-size: 1.3em;
+	margin: auto;
+  float: none;
+  text-align:center;
+}
+
+#textfield {
+  margin-top: 1em;
+  color: #88c;
+}
+
+#submit {
+  border: 0;
+  margin-top: 1em;
+  background-color: #11a8a8;
+  color: #fff;
+  height: 2em;
+}

@@ -11,14 +11,14 @@ noble.on('stateChange', function(state) {
 
 noble.on('discover', function(peripheral) {
   if (peripheral.advertisement.localName === 'spartacus') {
+    noble.stopScanning();
     explore(peripheral);
   }
 });
 
 function explore(peripheral) {
   peripheral.on('disconnect', function() {
-    console.log('disconnected');
-    return;
+    process.exit(0);
   });
 
   peripheral.connect(function(error) {
@@ -89,12 +89,9 @@ function explore(peripheral) {
           });
         },
         function (err) {
-          console.log("error");
           peripheral.disconnect();
         }
       );
     });
   });
 }
-
-

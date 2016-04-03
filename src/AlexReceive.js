@@ -16,14 +16,16 @@ noble.on('discover', function(peripheral) {
 });
 
 function explore(peripheral) {
+  console.log('services and characteristics:');
+
   peripheral.on('disconnect', function() {
+    process.exit(0);
     console.log('disconnected');
-    return;
   });
 
   peripheral.connect(function(error) {
     peripheral.discoverServices([], function(error, services) {
-      var serviceIndex = 2;
+      var serviceIndex = 0;
 
       async.whilst(
         function () {
@@ -32,6 +34,11 @@ function explore(peripheral) {
         function(callback) {
           var service = services[serviceIndex];
           var serviceInfo = service.uuid;
+
+          if (service.name) {
+            serviceInfo += ' (' + service.name + ')';
+          }
+          console.log(serviceInfo);
 
           service.discoverCharacteristics([], function(error, characteristics) {
             var characteristicIndex = 0;
@@ -89,12 +96,10 @@ function explore(peripheral) {
           });
         },
         function (err) {
-          console.log("error");
+          console.log('error');
           peripheral.disconnect();
         }
       );
     });
   });
 }
-
-
