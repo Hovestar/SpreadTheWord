@@ -5,30 +5,27 @@
 	<script>
 		function getHTML(id){
 			$.get("data/"+id).done(function(data) {
-				
-      message(data,id);
+				message(data,id);
 			});
 		}
 		function share(id) {
-			console.log(id)
-			window.location.replace("/share/"+id);
+			pass
 		}
 		function hide(id) {
-			console.log(id)
-			window.location.replace("/hide/"+id);
+			pass
 		}
 		function message(data,id) {
 			var div = document.createElement('div');
 			div.setAttribute("id", id);
-			var sharebut = "<form method='get', onclick='share("+id+")' > <input type='button' value='share'> </form>"
-			var hidebut = "<form method='get', onclick='hide("+id+")' > <input type='button' value='hide'> </form>"
-			div.innerHTML = data + sharebut + hidebut;
+			//var sharebut = "<form method='get' id='share'> <input type='button' value='share'> </form>"
+			//var hidebut = "<form method='get' id='hide'> <input type='button' value='hide'> </form>"
+			div.innerHTML = data //+ sharebut + hidebut;
 			document.body.appendChild(div);
 		}
     function loadmessages() {
-      for(var num = 5; num >= 1; num--) {
+      for(var num = 100; num > 0; num--) {
         getHTML(num);
-		  }
+	  }
     }
 	</script>
 </head>

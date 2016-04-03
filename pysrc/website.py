@@ -6,22 +6,41 @@ import os
 import posixpath
 import select
 import shutil
-import socket # For gethostbyaddr()
+import socket
 import socketserver
 import sys
 import time
 import urllib.parse
 import copy
 import argparse
+import random
 
 import http.server
 import socketserver
 
 import os
 
+def sharemessage(argument):
+    f = open('datastore','a')
+    f.write(urllib.parse.unquote_plus(argument)+'\n')
+    f.close()
+
+def importmessages(messagelist):
+    f = open('datastore','r')
+    for line in f:
+        messagelist.append(line)
+
 class SpreadServer(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        f, path = self.send_head()
+        try:
+            if self.path[1] == '?':
+                query = self.path.split('=') 
+                sharemessage(query[1])
+        except IndexError:
+            pass
+        messagelist = []
+        importmessages(messagelist)
+        f,path = self.send_head()
         pathls = path.split('/')
         if f:
             try:
@@ -30,11 +49,13 @@ class SpreadServer(http.server.SimpleHTTPRequestHandler):
                 f.close()
         else:
             if pathls[-2] == "data":
-                self.wfile.write("Message!".encode("utf-8"))
-            if pathls[-2] == "share":
-                self.wfile.write("shared!".encode("utf-8"))
-            if pathls[-2] == "hide":
-                self.wfile.write("hidden!".encode("utf-8"))
+                try:
+                    self.wfile.write(messagelist[int(pathls[-1])].encode("utf-8"))
+                except IndexError:
+                    pass
+            else:
+                self.send_error(404, "File not found")
+
 
     def do_HEAD(self):
         """Serve a HEAD request."""
@@ -93,8 +114,7 @@ class SpreadServer(http.server.SimpleHTTPRequestHandler):
             f.close()
             raise
 
-
-PORT = 8889
+PORT = 8880 + random.randrange(20)
 
 Handler = SpreadServer
 
