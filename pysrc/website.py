@@ -18,7 +18,6 @@ import random
 import http.server
 import socketserver
 
-import os
 
 def sharemessage(argument):
     f = open('datastore','a')
@@ -118,7 +117,7 @@ PORT = 8880 + random.randrange(20)
 
 Handler = SpreadServer
 
-httpd = socketserver.TCPServer(("localhost", PORT), Handler)
+httpd = socketserver.TCPServer(("", PORT), Handler)
 
 print("serving at port", PORT)
 try:
