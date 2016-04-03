@@ -1,3 +1,19 @@
+import html
+import http.client
+import io
+import mimetypes
+import os
+import posixpath
+import select
+import shutil
+import socket # For gethostbyaddr()
+import socketserver
+import sys
+import time
+import urllib.parse
+import copy
+import argparse
+
 import socket
 import thread
 import bluetooth
@@ -44,7 +60,7 @@ def sendOut(port,text):
 		thread.start_new_thread( beClient, (other['host'],port,text) )
 
 if __name__=="__main__":
-	mac = # this intentionally will raise an excception. Put in the bluetooth address
+	mac =  # this intentionally will raise an excception. Put in the bluetooth address
 	port = 3 # if you change, change on every freaking machine
 	thread.start_new_thread(hostServer,(mac,port))
 	text = ''
