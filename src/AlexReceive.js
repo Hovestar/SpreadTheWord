@@ -1,6 +1,5 @@
 var async = require('async');
 var noble = require('noble');
-var fs = require('fs');
 
 noble.on('stateChange', function(state) {
   if (state === 'poweredOn') {
@@ -12,19 +11,21 @@ noble.on('stateChange', function(state) {
 
 noble.on('discover', function(peripheral) {
   if (peripheral.advertisement.localName === 'spartacus') {
-    noble.stopScanning();
     explore(peripheral);
   }
 });
 
 function explore(peripheral) {
+  console.log('services and characteristics:');
+
   peripheral.on('disconnect', function() {
     process.exit(0);
+    console.log('disconnected');
   });
 
   peripheral.connect(function(error) {
     peripheral.discoverServices([], function(error, services) {
-      var serviceIndex = 2;
+      var serviceIndex = 0;
 
       async.whilst(
         function () {
@@ -33,6 +34,11 @@ function explore(peripheral) {
         function(callback) {
           var service = services[serviceIndex];
           var serviceInfo = service.uuid;
+
+          if (service.name) {
+            serviceInfo += ' (' + service.name + ')';
+          }
+          console.log(serviceInfo);
 
           service.discoverCharacteristics([], function(error, characteristics) {
             var characteristicIndex = 0;
@@ -68,11 +74,6 @@ function explore(peripheral) {
                       characteristic.read(function(error, data) {
                         if (data) {
                           console.log(data.toString('ascii'));
-                          fs.appendFile("./datastore", data.toString('ascii'), function(err) {
-                            if(err) {
-                              return console.log(err);
-                            }
-}); 
                           
                         }
                         callback();
@@ -95,6 +96,7 @@ function explore(peripheral) {
           });
         },
         function (err) {
+          console.log('error');
           peripheral.disconnect();
         }
       );

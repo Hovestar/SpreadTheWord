@@ -29,7 +29,7 @@ bleno.on('stateChange', function(state) {
 
     bleno.setServices(services);
 
-    bleno.startAdvertising('spartacus', ['13333333333333333333333333330003']);
+    bleno.startAdvertising('spartacus', ['beef']);
   } else {
     bleno.stopAdvertising();
   }

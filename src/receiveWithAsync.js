@@ -1,6 +1,5 @@
 var async = require('async');
 var noble = require('noble');
-var fs = require('fs');
 
 noble.on('stateChange', function(state) {
   if (state === 'poweredOn') {
@@ -68,11 +67,6 @@ function explore(peripheral) {
                       characteristic.read(function(error, data) {
                         if (data) {
                           console.log(data.toString('ascii'));
-                          fs.appendFile("./datastore", data.toString('ascii'), function(err) {
-                            if(err) {
-                              return console.log(err);
-                            }
-}); 
                           
                         }
                         callback();

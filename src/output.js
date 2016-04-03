@@ -1,6 +1,12 @@
+var messages = [];
 var bleno = require('bleno');
-var messages = ["This", "Is", "A", "Test of something really cool!"];
-var EchoCharacteristic = require('./characteristic');
+fs = require('fs')
+fs.readFile('./datastore', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  messages = [data];
+});
 
 console.log('bleno - echo');
 
