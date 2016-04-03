@@ -5,7 +5,8 @@
 	<script>
 		function getHTML(id){
 			$.get("data/"+id).done(function(data) {
-				message(data,id);
+				
+      message(data,id);
 			});
 		}
 		function share(id) {
@@ -24,20 +25,21 @@
 			div.innerHTML = data + sharebut + hidebut;
 			document.body.appendChild(div);
 		}
+    function loadmessages() {
+      for(var num = 5; num >= 1; num--) {
+        getHTML(num);
+		  }
+    }
 	</script>
 </head>
 
-<body>
+<body onload="loadmessages()">
 	<div>
+		Spread The Word
 		<form method = "get" action="/">
-			Spread the word: 
-			<input type="text" name="submit"> 
-			<input type="submit" value="Submit">
+			<input id="textfield" type="text" name="submit"> 
+      </br>
+			<input id="submit" type="submit" value="Submit">
 		</form>
 	<div>
-	<script>
-		for(var num = 5; num >= 1; num--) {
-			getHTML(num);
-		}
-	</script>
 </body>

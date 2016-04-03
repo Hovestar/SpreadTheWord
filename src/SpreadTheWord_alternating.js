@@ -5,29 +5,32 @@ var async = require('async'),
     url = require("url"),
     path = require("path"),
     fs = require("fs"),
-    port = process.argv[2] || 8888;
-
+    port = process.argv[2] || 8888,
+    messages = ["This", "Is", "A", "Test of something really cool!"];
+var EchoCharacteristic = require('./characteristic');
 /* this section handles sending messages */
 bleno.on('stateChange', function(state) {
   console.log('on -> stateChange: ' + state);
 
   if (state === 'poweredOn') {
-    var C = new bleno.Characteristic({
-      uuid: 'ca00',
-      properties: ['read'],
-      value: 'TestString1',
-    }); 
-    var C2 = new bleno.Characteristic({
-      uuid: 'ca01',
-      properties: ['read'],
-      value: 'TestString2 - by the way, these strings can be pretty long. Like, pretty damn long. This one is over 100 characters.',
-    }); 
+    numMessages = 0;
+    charList = [];
+    while (numMessages < messages.length) {
+      charList.push(
+        new bleno.Characteristic({
+          uuid: '000' + numMessages,
+          properties: ['read'],
+          value: messages[numMessages],
+        })
+      );
+      numMessages++;
+    }
     var service1 = new bleno.PrimaryService({
       uuid:'13333333333333333333333333330004',
       properties: ['notify','read'],
-      characteristics: [C,C2]
-    }); 
-    
+      characteristics: charList
+    });
+      
     
     var services = [service1];
 
@@ -39,6 +42,11 @@ bleno.on('stateChange', function(state) {
   }
 });
 
+
+bleno.on('advertisingStart', function(error) {
+  console.log('on -> advertisingStart: ' + (error ? 'error ' + error : 'success'));
+  if (!error) {
+}});
 
 /* This section handles recieving messages*/
 noble.on('stateChange', function(state) {
@@ -137,6 +145,39 @@ function explore(peripheral) {
   });
 }
 
+function updateList(message) {
+  console.log('Messages updated!');
+
+  messages.push(message);
+  if (bleno.state === 'poweredOn') {
+    bleno.stopAdvertising();
+    
+    console.log("Stopped advertising!");
+    numMessages = 0;
+    charList = [];
+    while (numMessages < messages.length) {
+      console.log("Advertising " + messages[numMessages] + "!"); 
+      charList.push(
+        new bleno.Characteristic({
+          uuid: '000' + numMessages,
+          properties: ['read'],
+          value: messages[numMessages],
+        })
+      );
+      numMessages++;
+    }
+    var service = new bleno.PrimaryService({
+      uuid:'13333333333333333333333333330004',
+      properties: ['notify','read'],
+      characteristics: charList
+    }); 
+    var services = [service];
+    bleno.setServices(services);
+    console.log("About to start advertising again!");
+    bleno.startAdvertising('spartacus', ['13333333333333333333333333330003']);
+    console.log("Started updating!");
+  }
+}
 /* this section hosts the website */
 
 http.createServer(function(request, response) {
@@ -145,8 +186,9 @@ http.createServer(function(request, response) {
     if(request.url[1] == "?"){
       var ind = request.url.search("=");
       var message = request.url.substr(ind+1)
-      console.log(message);
-        }
+      //console.log(message);
+      updateList(message);
+      }
   }
 
   var uri = url.parse(request.url).pathname
@@ -187,16 +229,3 @@ http.createServer(function(request, response) {
 }).listen(parseInt(port, 10));
 
 console.log("Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
-
-
-
-
-
-
-
-
-
-
-
-
-

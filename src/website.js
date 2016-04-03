@@ -2,7 +2,6 @@ var http = require("http"),
     url = require("url"),
     path = require("path"),
     fs = require("fs"),
-    formidable = require("formidable"),
     port = process.argv[2] || 8888;
 
 // function output(hash,message) {

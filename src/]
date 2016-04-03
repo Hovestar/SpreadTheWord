@@ -1,0 +1,19 @@
+div {
+	position: relative;
+	width: 20em;
+	height: 5em;
+	font-size: 1.3em;
+	margin: auto;
+  float: none;
+  text-align:center;
+}
+
+#textfield {
+  background-color: #ccf;
+}
+
+#submit {
+  background-color: #9cf;
+  color: white;
+  height: 2em;
+}
