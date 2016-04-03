@@ -11,14 +11,14 @@ noble.on('stateChange', function(state) {
 
 noble.on('discover', function(peripheral) {
   if (peripheral.advertisement.localName === 'spartacus') {
-    noble.stopScanning();
     explore(peripheral);
   }
 });
 
 function explore(peripheral) {
   peripheral.on('disconnect', function() {
-    process.exit(0);
+    console.log('disconnected');
+    return;
   });
 
   peripheral.connect(function(error) {
