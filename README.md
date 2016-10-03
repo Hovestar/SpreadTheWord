@@ -1,5 +1,5 @@
 # SpreadTheWord
-A distributed yik yak clone for HackCU Hackathon
+A distributed social network across bluetooth for HackCU Hackathon
 
 Seth's Vision:
 - Transfer Words
